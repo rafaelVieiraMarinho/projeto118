@@ -2,28 +2,29 @@ $(document).ready(function(){
 
     console.log('O Documento está Pronto')
 
+    //  obtendo a data usando o objeto Date() e convertendo-a em uma string
     let date = new Date()
-    let current_date = date.toDateString()
+    let current_date = date.toLocaleDateString('pt-BR', {weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'})
 
     //  exibir a data na página HTML usando JQUERY e JS
     $('#date').text('Data: ' + current_date)
 
-    
+
     let review = ""
     let input_data = ""
     let product = ""
     let emotion = ""
     let emoji_url = ""
 
-   
+    //  criando uma função para a requisição AJAX
     function ajax_request(api_url , input_data){
 
         $.ajax({
 
-            // tipo da requisição POST
+            // tipo da requisição
             type : 'POST',
 
-            
+            // url
             url : api_url,
 
             //  dados JSON
@@ -56,14 +57,14 @@ $(document).ready(function(){
                     $('#c_emoji').show()
                     $('#c_emotion').show()
                 }
-                //complete os id para headphones
+
                 else if (product  ==  'Headphones'){
                     $('#h_emoji').attr('src' , emoji_url)
                     $('#h_emotion').text(emotion)
                     $('#h_emoji').show()
                     $('#h_emotion').show()
                 }
-                //complete os id para videogames
+
                 else if (product  ==  'Video Games'){
                     $('#v_emoji').attr('src' , emoji_url)
                     $('#v_emotion').text(emotion)
@@ -72,7 +73,7 @@ $(document).ready(function(){
                 }
             },
 
-           
+            //  método error
             error : function(result)
             {
                 console.log(result)
@@ -81,11 +82,11 @@ $(document).ready(function(){
         })
 
         console.log('requisição ajax enviada')
-        
+
     }
 
 
-    
+    //  verifique se o botão Enviar em 'smartphone' foi clicado e obtenha a avaliação apropriada
     $('#m_button').click(function(){
 
         review = $('#m_textbox').val()
@@ -132,11 +133,10 @@ $(document).ready(function(){
 
         console.log('botão salvar foi clicado')
 
-       
+        //  entrada de dados
         input_data = {'date' : date , 'product' : product , 'review' : review , 'sentiment' : emotion}
 
-       
-        
+        //  chamada ajax
         $.ajax({
             type : 'POST',
             url : '/save',
@@ -160,5 +160,3 @@ $(document).ready(function(){
 
 
 })
-
-    

@@ -15,8 +15,8 @@ def predict():
     review = request.json.get('customer_review')
     if not review:
         response = {'status' : 'error',
-                    'message' : 'Avaliação em Branco'}
-    
+                    'message' : 'Empty Review'}
+
     else:
 
         # chamando o método predict do módulo de previsão.py
@@ -29,27 +29,28 @@ def predict():
     return jsonify(response)
 
 
-# nome da rota igual ao nome dentro de url na linha 142 e metodo POST
+# Criando uma API para salvar a avaliação. O usuário clica no botão Salvar
 @app.route('/save' , methods = ['POST'])
 def save():
 
-    # extraindo OS dados JSON coloque a baixo o valor da chave que esta na linha 137 do arquivo index.js ex.date
+    # extraindo data, nome do produto, avaliação e sentimento associados aos dados JSON
     date = request.json.get('date')
     product = request.json.get('product')
     review = request.json.get('review')
     sentiment = request.json.get('sentiment')
 
-   
+    # criando uma variável final separada por vírgulas
     data_entry = date + "," + product + "," + review + "," + sentiment
 
-    
+
+    # abra o arquivo no modo 'append'
     f = open('./static/assets/datafiles/data_entry.csv' , 'a')
 
-   
+    # Registre os dados no arquivo
     f.write(data_entry + '\n')
 
-   
-    return jsonify({'status' : 'success' , 
+    # retorne uma mensagem de sucesso
+    return jsonify({'status' : 'success' ,
                     'message' : 'Dados Registrados'})
 
 
